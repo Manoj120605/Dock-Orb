@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, Bot, Database, Layers3, MessageSquare, Plus, Settings, Sparkles, Zap } from "lucide-react";
+import { BarChart3, Bot, Database, Layers3, MessageSquare, Plus, Settings, Sparkles, Zap, Workflow } from "lucide-react";
 
 const navItems = [
   { name: "Chat", path: "/workspace/chat", icon: MessageSquare },
+  { name: "Builder", path: "/workspace/builder", icon: Workflow },
   { name: "Capsules", path: "/workspace/capsules", icon: Database },
   { name: "Skills", path: "/workspace/skills", icon: Sparkles },
   { name: "Automations", path: "/workspace/automations", icon: Zap },

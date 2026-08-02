@@ -21,6 +21,47 @@ export default function AutomationsPage() {
   const [statusMessage, setStatusMessage] = useState("");
   const [statusOk, setStatusOk] = useState(true);
   const [workflowPrompt, setWorkflowPrompt] = useState("");
+  const [customWorkflows, setCustomWorkflows] = useState<any[]>([]);
+
+  // Fetch custom workflows on mount
+  useEffect(() => {
+    fetch("http://localhost:3001/api/v1/capsules?workspaceId=default-workspace&type=TASK")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.data) {
+          setCustomWorkflows(data.data);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  const createWorkflow = async () => {
+    const prompt = workflowPrompt.trim();
+    if (!prompt) return;
+    setCreating(true);
+    
+    try {
+      const res = await fetch("http://localhost:3001/api/v1/capsules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          workspaceId: "default-workspace",
+          name: prompt,
+          description: "Custom user automation workflow",
+          type: "TASK",
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCustomWorkflows((prev) => [data.data, ...prev]);
+        setWorkflowPrompt("");
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setCreating(false);
+    }
+  };
   const [creating, setCreating] = useState(false);
   const [browsing, setBrowsing] = useState(false);
   const [testing, setTesting] = useState(false);
@@ -146,7 +187,7 @@ export default function AutomationsPage() {
           className="h-10 flex-1 bg-transparent px-2 text-sm text-zinc-200 outline-none placeholder:text-zinc-500"
         />
         <button
-          onClick={() => { setCreating(true); setTimeout(() => { setCreating(false); setWorkflowPrompt(""); }, 1500); }}
+          onClick={createWorkflow}
           disabled={!workflowPrompt.trim() || creating}
           className="h-10 rounded-md bg-indigo-500 px-5 text-xs font-semibold text-white transition hover:bg-indigo-400 disabled:opacity-50"
         >
@@ -351,6 +392,18 @@ export default function AutomationsPage() {
                   </div>
                   <button className="flex h-7 items-center gap-1.5 rounded bg-zinc-800 px-2.5 text-[10px] font-medium text-zinc-300 transition hover:bg-indigo-500 hover:text-white">
                     <Play size={10} /> Run
+                  </button>
+                </div>
+              ))}
+              
+              {customWorkflows.map((flow) => (
+                <div key={flow.id} className="flex items-center justify-between rounded-lg border border-indigo-500/20 bg-indigo-500/5 p-3">
+                  <div>
+                    <h3 className="text-xs font-medium text-indigo-300">{flow.name}</h3>
+                    <p className="mt-0.5 text-[10px] text-zinc-500">{flow.description}</p>
+                  </div>
+                  <button className="flex h-7 items-center gap-1.5 rounded bg-indigo-500/10 px-2.5 text-[10px] font-medium text-indigo-300 transition hover:bg-indigo-500 hover:text-white border border-indigo-500/20">
+                    <Play size={10} /> Active
                   </button>
                 </div>
               ))}

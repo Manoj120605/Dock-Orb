@@ -106,4 +106,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       client.emit('chat:error', { error: error.message });
     }
   }
+
+  emitToolStart(workspaceId: string, toolName: string, args: any) {
+    this.server.emit('tool_start', { workspaceId, toolName, args });
+  }
+
+  emitToolEnd(workspaceId: string, toolName: string, result: any) {
+    this.server.emit('tool_end', { workspaceId, toolName, result });
+  }
 }

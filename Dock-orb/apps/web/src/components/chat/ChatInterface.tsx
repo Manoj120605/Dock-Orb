@@ -2,8 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp, Bot, FileCode2, Loader2, Paperclip, Sparkles, User, AlertCircle } from "lucide-react";
+import { io, Socket } from "socket.io-client";
+import { ToolActivity } from "./ToolActivity";
 
 const API = "http://localhost:3001/api/v1";
+const SOCKET_URL = "http://localhost:3001";
 const WORKSPACE_ID = "default-workspace";
 const CONVERSATION_ID = "default-conversation";
 
@@ -19,7 +22,39 @@ export function ChatInterface() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [configStatus, setConfigStatus] = useState<"unchecked" | "ready" | "missing">("unchecked");
+  const [activeTools, setActiveTools] = useState<any[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
+  const socketRef = useRef<Socket | null>(null);
+
+  useEffect(() => {
+    // Setup Socket.io
+    socketRef.current = io(SOCKET_URL);
+
+    socketRef.current.on("tool_start", (data) => {
+      setActiveTools((prev) => [
+        ...prev,
+        { id: `${data.toolName}-${Date.now()}`, toolName: data.toolName, args: data.args, status: "running" },
+      ]);
+    });
+
+    socketRef.current.on("tool_end", (data) => {
+      setActiveTools((prev) =>
+        prev.map((t) =>
+          t.toolName === data.toolName && t.status === "running"
+            ? { ...t, status: data.result?.error ? "error" : "completed", result: data.result }
+            : t
+        )
+      );
+      // Remove completed tools after 3 seconds so the UI stays clean
+      setTimeout(() => {
+        setActiveTools((prev) => prev.filter((t) => t.toolName !== data.toolName || t.status === "running"));
+      }, 3000);
+    });
+
+    return () => {
+      socketRef.current?.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -176,8 +211,11 @@ export function ChatInterface() {
               <div className="grid h-7 w-7 place-items-center rounded-md bg-indigo-500/10 text-indigo-300">
                 <Bot size={15} />
               </div>
-              <div className="workspace-card flex items-center gap-2 px-4 py-3 text-xs text-zinc-500">
-                <Loader2 size={13} className="animate-spin" /> Thinking...
+              <div className="flex-1">
+                <div className="workspace-card inline-flex items-center gap-2 px-4 py-3 text-xs text-zinc-500 mb-2">
+                  <Loader2 size={13} className="animate-spin" /> Thinking...
+                </div>
+                <ToolActivity tools={activeTools} />
               </div>
             </div>
           )}

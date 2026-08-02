@@ -91,6 +91,7 @@ export class ChatController {
         rawConfig.aiApiKey,
         rawConfig.aiBaseUrl,
         rawConfig.providerHint,
+        body.workspaceId,
       );
     } catch (e: any) {
       // Return error as a normal response so frontend can display it without crashing

@@ -1,6 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, Inject, forwardRef } from '@nestjs/common';
 import OpenAI from 'openai';
 import { McpService } from '../automation/mcp.service';
+import { ChatGateway } from './chat.gateway';
 
 // Auto-detect provider and return sensible defaults
 function detectProvider(apiKey: string, baseUrl: string, providerHint?: string): { baseURL: string; model: string } {
@@ -76,13 +77,17 @@ function detectProvider(apiKey: string, baseUrl: string, providerHint?: string):
 export class LlmService {
   private readonly logger = new Logger(LlmService.name);
 
-  constructor(private readonly mcpService: McpService) {}
+  constructor(
+    private readonly mcpService: McpService,
+    @Inject(forwardRef(() => ChatGateway)) private readonly chatGateway: ChatGateway,
+  ) {}
 
   async generateResponse(
     messages: { role: string; content: string }[],
     aiApiKey: string,
     userBaseUrl: string | undefined,
     providerHint?: string,
+    workspaceId?: string,
   ): Promise<{ response: string; usage?: any }> {
     if (!aiApiKey || aiApiKey.trim() === '') {
       throw new Error('No AI API key configured. Go to Automations and save your key.');
@@ -115,6 +120,25 @@ export class LlmService {
 
       // 2. Tool call loop (max 5 iterations)
       let currentMessages = [...messages] as any[];
+      
+      // Inject System Prompt at the beginning
+      const systemPrompt = {
+        role: 'system',
+        content: `You are Dock-Orb AI, an advanced agentic coding assistant.
+You have access to MCP (Model Context Protocol) tools.
+CRITICAL INSTRUCTIONS:
+- You must use your provided tools to directly fulfill the user's requests.
+- DO NOT just write code blocks and tell the user to manually copy/paste or save them. YOU must use the \`write_file\` or \`edit_file\` tools to do it yourself!
+- If the user asks you to create a file, CREATE IT using the tool.
+- If the user asks you to read a file, READ IT using the tool.
+- If the user asks you to commit or push, USE the github tools to do so.
+Always act proactively using tools.`
+      };
+      
+      if (currentMessages.length === 0 || currentMessages[0].role !== 'system') {
+        currentMessages.unshift(systemPrompt);
+      }
+
       let finalResponse = '';
       let usageInfo: any = null;
 
@@ -156,11 +180,15 @@ export class LlmService {
 
           for (const toolCall of choice.message.tool_calls) {
             const { name, arguments: argsString } = (toolCall as any).function;
+            let toolResult;
             try {
               const args = JSON.parse(argsString);
-              const toolResult = await this.mcpService.callTool(name, args);
+              if (workspaceId) this.chatGateway.emitToolStart(workspaceId, name, args);
+              toolResult = await this.mcpService.callTool(name, args);
+              if (workspaceId) this.chatGateway.emitToolEnd(workspaceId, name, toolResult);
               currentMessages.push({ role: 'tool', tool_call_id: toolCall.id, content: JSON.stringify(toolResult) });
             } catch (err) {
+              if (workspaceId) this.chatGateway.emitToolEnd(workspaceId, name, { error: String(err) });
               currentMessages.push({ role: 'tool', tool_call_id: toolCall.id, content: JSON.stringify({ error: String(err) }) });
             }
           }
