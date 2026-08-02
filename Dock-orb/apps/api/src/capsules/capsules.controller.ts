@@ -1,24 +1,20 @@
 import {
-  Controller, Get, Post, Put, Delete, Param, Body, Query,
-  UseGuards, Request,
+  Controller, Get, Post, Put, Delete, Param, Body, Query, Request,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { CapsulesService } from './capsules.service';
 import { CreateCapsuleDto, UpdateCapsuleDto } from './dto/capsule.dto';
 import { CapsuleType } from '@prisma/client';
 
 @ApiTags('Capsules')
 @Controller('capsules')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 export class CapsulesController {
   constructor(private capsulesService: CapsulesService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new capsule' })
   async create(@Request() req: any, @Body() dto: CreateCapsuleDto) {
-    const capsule = await this.capsulesService.create(req.user.sub, dto);
+    const capsule = await this.capsulesService.create(req.user?.sub || 'default-user', dto);
     return { success: true, data: capsule };
   }
 

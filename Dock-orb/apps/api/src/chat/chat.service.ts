@@ -4,11 +4,12 @@ import { ChatMessage } from '@capsule-ai/shared-types';
 
 @Injectable()
 export class ChatService {
-  constructor(private prisma: PrismaService) {}
+  constructor(public prisma: PrismaService) {}
 
-  async createConversation(workspaceId: string, userId: string, capsuleId?: string, title?: string) {
+  async createConversation(workspaceId: string, userId: string, capsuleId?: string, title?: string, id?: string) {
     return this.prisma.conversation.create({
       data: {
+        id, // Will use auto-generated UUID if undefined
         workspaceId,
         userId,
         capsuleId,

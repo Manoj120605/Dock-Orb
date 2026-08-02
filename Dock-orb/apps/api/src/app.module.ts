@@ -12,6 +12,7 @@ import { ProvidersModule } from './providers/providers.module';
 import { OptimizerModule } from './optimizer/optimizer.module';
 import { SkillsModule } from './skills/skills.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { AutomationModule } from './automation/automation.module';
 import { AppController } from './app.controller';
 
 @Module({
@@ -38,6 +39,7 @@ import { AppController } from './app.controller';
     OptimizerModule,
     SkillsModule,
     AnalyticsModule,
+    AutomationModule,
   ],
 })
 export class AppModule {}

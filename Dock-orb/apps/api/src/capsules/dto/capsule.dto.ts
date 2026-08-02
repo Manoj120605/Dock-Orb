@@ -20,9 +20,10 @@ export class CreateCapsuleDto {
   @IsString()
   description?: string;
 
-  @ApiProperty({ type: Object })
+  @ApiPropertyOptional({ type: Object })
+  @IsOptional()
   @IsObject()
-  content: Record<string, any>;
+  content?: Record<string, any>;
 
   @ApiPropertyOptional({ type: Object })
   @IsOptional()

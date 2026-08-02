@@ -14,6 +14,20 @@ export class CapsulesService {
   // ---- CRUD ----
 
   async create(userId: string, dto: CreateCapsuleDto) {
+    // Ensure workspace exists
+    await this.prisma.workspace.upsert({
+      where: { id: dto.workspaceId },
+      create: { id: dto.workspaceId, name: 'Default Workspace', settings: {} },
+      update: {},
+    });
+
+    // Ensure user exists
+    await this.prisma.user.upsert({
+      where: { id: userId },
+      create: { id: userId, email: `${userId}@local.dock-orb`, name: 'Local User', passwordHash: 'local' },
+      update: {},
+    });
+
     const capsule = await this.prisma.capsule.create({
       data: {
         userId,
@@ -21,8 +35,8 @@ export class CapsulesService {
         type: dto.type,
         name: dto.name,
         description: dto.description,
-        content: dto.content as any,
-        metadata: dto.metadata as any || {},
+        content: (dto.content as any) || {},
+        metadata: (dto.metadata as any) || {},
         parentId: dto.parentId,
       },
     });
