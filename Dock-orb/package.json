@@ -1,0 +1,32 @@
+{
+  "name": "capsule-ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Domain-Agnostic AI Workspace with persistent Capsule memory",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "skills/*/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean",
+    "db:migrate": "npm run prisma:migrate --workspace=apps/api",
+    "db:generate": "npm run prisma:generate --workspace=apps/api",
+    "db:seed": "npm run prisma:seed --workspace=apps/api",
+    "docker:up": "docker compose -f docker/docker-compose.yml up -d",
+    "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "docker:build": "docker compose -f docker/docker-compose.yml up --build -d"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "packageManager": "npm@10.0.0"
+}

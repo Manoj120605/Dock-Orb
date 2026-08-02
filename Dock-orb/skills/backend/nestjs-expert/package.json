@@ -1,0 +1,19 @@
+{
+  "name": "@capsule-ai/skill-nestjs-expert",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@capsule-ai/skill-core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "rimraf": "^6.0.0"
+  }
+}
