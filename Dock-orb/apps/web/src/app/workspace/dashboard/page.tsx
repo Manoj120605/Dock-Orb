@@ -1,71 +1,21 @@
 "use client";
 
-import { BarChart3, TrendingDown, DollarSign, Database, BrainCircuit, Activity } from "lucide-react";
+import { Activity, ArrowDownRight, ArrowUpRight, Database, Gauge, Layers3, MoreHorizontal, Zap } from "lucide-react";
+
+const runs = [
+  ["EX_9281", "Document ingestion", "Completed", "2m ago"],
+  ["EX_9280", "Context optimization", "Running", "8m ago"],
+  ["EX_9279", "Architecture analysis", "Completed", "14m ago"],
+  ["EX_9278", "Skill discovery", "Completed", "19m ago"],
+];
 
 export default function DashboardPage() {
-  const stats = [
-    { title: 'Total API Cost (30d)', value: '$12.45', change: '-45%', icon: DollarSign, trend: 'good' },
-    { title: 'Cost Saved by Cache', value: '$8.20', change: '+12%', icon: TrendingDown, trend: 'good' },
-    { title: 'Total Tokens Processed', value: '1.2M', change: '+5%', icon: BrainCircuit, trend: 'neutral' },
-    { title: 'Capsules Indexed', value: '42', change: '+3', icon: Database, trend: 'neutral' },
-  ];
-
-  return (
-    <div className="p-8 h-full overflow-y-auto">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight mb-1">Analytics Dashboard</h1>
-          <p className="text-muted-foreground">Monitor API usage, costs, and optimization metrics.</p>
-        </div>
-        <select className="bg-card border border-border/60 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary/50">
-          <option>Last 30 Days</option>
-          <option>Last 7 Days</option>
-          <option>This Month</option>
-        </select>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {stats.map((stat, i) => (
-          <div key={i} className="glass-panel p-6 rounded-xl">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-medium text-muted-foreground">{stat.title}</h3>
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <stat.icon size={18} className="text-primary" />
-              </div>
-            </div>
-            <div className="flex items-end justify-between">
-              <div className="text-3xl font-bold text-foreground">{stat.value}</div>
-              <div className={`text-xs font-medium px-2 py-1 rounded-md ${
-                stat.trend === 'good' ? 'text-green-500 bg-green-500/10' : 'text-blue-500 bg-blue-500/10'
-              }`}>
-                {stat.change}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="glass-panel p-6 rounded-xl h-80 flex flex-col">
-          <h3 className="font-semibold mb-6 flex items-center gap-2">
-            <BarChart3 size={18} className="text-primary" />
-            Cost by Provider
-          </h3>
-          <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm border border-dashed border-border/60 rounded-lg">
-            [Chart Area: Cost Distribution]
-          </div>
-        </div>
-
-        <div className="glass-panel p-6 rounded-xl h-80 flex flex-col">
-          <h3 className="font-semibold mb-6 flex items-center gap-2">
-            <Activity size={18} className="text-primary" />
-            Model Usage (Tokens)
-          </h3>
-          <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm border border-dashed border-border/60 rounded-lg">
-            [Chart Area: Token Volume]
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  const metrics = [{ label: "Workflow runs", value: "1,248", change: "+12.4%", icon: Activity }, { label: "AI cost", value: "$12.45", change: "-18.2%", icon: Zap }, { label: "Context cache", value: "84.6%", change: "+4.8%", icon: Gauge }, { label: "Active capsules", value: "42", change: "+3", icon: Database }];
+  return <div className="h-full overflow-y-auto bg-[#09090b] p-6 text-zinc-100">
+    <div className="mb-6 flex flex-col gap-4 border-b border-zinc-800 pb-5 md:flex-row md:items-end md:justify-between"><div><p className="workspace-label">Operations overview</p><h1 className="mt-2 text-lg font-semibold">Automation dashboard</h1><p className="mt-1 text-xs text-zinc-500">A clear view of your AI workflows, context resources, and usage.</p></div><button className="h-8 rounded-md border border-zinc-800 bg-[#0c0c0e] px-3 text-xs text-zinc-400 hover:bg-zinc-900">Last 30 days</button></div>
+    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">{metrics.map(({ label, value, change, icon: Icon }, index) => <div key={label} className="workspace-card p-4"><div className="flex items-center justify-between"><span className="workspace-label">{label}</span><Icon size={15} className="text-zinc-500" /></div><div className="mt-4 flex items-end justify-between"><span className="text-2xl font-semibold tracking-tight">{value}</span><span className={`flex items-center gap-0.5 text-[11px] ${index === 1 ? "text-emerald-400" : "text-emerald-400"}`}><ArrowUpRight size={12} />{change}</span></div></div>)}</div>
+    <div className="mt-5 grid gap-5 xl:grid-cols-[1fr_288px]"><section className="workspace-card overflow-hidden"><div className="flex items-center justify-between border-b border-zinc-800 px-4 py-3"><div><p className="text-xs font-semibold">Workflow activity</p><p className="mt-0.5 text-[11px] text-zinc-500">Execution volume across active nodes</p></div><button className="text-zinc-500 hover:text-zinc-200"><MoreHorizontal size={17} /></button></div><div className="workspace-grid h-60 p-5"><div className="flex h-full items-end gap-3">{[30, 44, 36, 68, 49, 78, 62, 86, 72, 91, 64, 80].map((height, i) => <div key={i} className="group flex flex-1 items-end"><div style={{ height: `${height}%` }} className={`w-full rounded-sm ${i === 9 ? "bg-indigo-500" : "bg-zinc-700"} transition hover:bg-indigo-400`} /></div>)}</div></div></section>
+      <aside className="workspace-card p-4"><div className="flex items-center justify-between"><p className="text-xs font-semibold">Resource monitors</p><span className="flex items-center gap-1 text-[10px] text-emerald-400"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Live</span></div><div className="mt-5 space-y-5">{[["Token budget", "72%", "bg-indigo-500"], ["Vector storage", "41%", "bg-zinc-500"], ["Cache capacity", "84%", "bg-emerald-500"]].map(([label, value, color]) => <div key={label}><div className="mb-2 flex justify-between text-[11px] text-zinc-400"><span>{label}</span><span>{value}</span></div><div className="h-1.5 overflow-hidden rounded-full bg-zinc-800"><div className={`h-full rounded-full ${color}`} style={{ width: value }} /></div></div>)}</div></aside></div>
+    <section className="workspace-card mt-5 overflow-hidden"><div className="flex items-center justify-between border-b border-zinc-800 px-4 py-3"><div className="flex items-center gap-2"><Layers3 size={15} className="text-zinc-500" /><p className="text-xs font-semibold">Recent executions</p></div><button className="text-[11px] text-indigo-400 hover:text-indigo-300">View all</button></div><div className="overflow-x-auto"><table className="w-full text-left text-xs"><thead className="border-b border-zinc-800 text-[10px] uppercase tracking-wider text-zinc-600"><tr><th className="px-4 py-3 font-medium">Execution</th><th className="px-4 py-3 font-medium">Workflow</th><th className="px-4 py-3 font-medium">Status</th><th className="px-4 py-3 font-medium">Started</th><th /></tr></thead><tbody className="divide-y divide-zinc-800/50">{runs.map(([id, flow, status, time]) => <tr key={id} className="hover:bg-zinc-900/40"><td className="px-4 py-3 font-mono text-[11px] text-zinc-400">{id}</td><td className="px-4 py-3 text-zinc-300">{flow}</td><td className="px-4 py-3"><span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] ${status === "Running" ? "bg-indigo-500/10 text-indigo-300" : "bg-emerald-500/10 text-emerald-400"}`}><span className={`h-1.5 w-1.5 rounded-full ${status === "Running" ? "bg-indigo-400" : "bg-emerald-400"}`} />{status}</span></td><td className="px-4 py-3 text-zinc-500">{time}</td><td className="px-4 py-3"><MoreHorizontal size={16} className="text-zinc-600" /></td></tr>)}</tbody></table></div></section>
+  </div>;
 }

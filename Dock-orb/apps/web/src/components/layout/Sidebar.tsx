@@ -2,91 +2,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  MessageSquare, 
-  Database, 
-  Settings, 
-  BarChart, 
-  Zap,
-  PlusCircle
-} from "lucide-react";
+import { BarChart3, Bot, Database, Layers3, MessageSquare, Plus, Settings, Sparkles } from "lucide-react";
+
+const navItems = [
+  { name: "Chat", path: "/workspace/chat", icon: MessageSquare },
+  { name: "Capsules", path: "/workspace/capsules", icon: Database },
+  { name: "Skills", path: "/workspace/skills", icon: Sparkles },
+  { name: "Dashboard", path: "/workspace/dashboard", icon: BarChart3 },
+];
 
 export function Sidebar() {
   const pathname = usePathname();
-  
-  const navItems = [
-    { name: "Chat", path: "/workspace/chat", icon: MessageSquare },
-    { name: "Capsules", path: "/workspace/capsules", icon: Database },
-    { name: "Skills", path: "/workspace/skills", icon: Zap },
-    { name: "Dashboard", path: "/workspace/dashboard", icon: BarChart },
-    { name: "Settings", path: "/workspace/settings", icon: Settings },
-  ];
-
-  return (
-    <aside className="w-64 border-r border-border/40 bg-card flex flex-col h-screen">
-      <div className="h-14 flex items-center px-4 border-b border-border/40">
-        <div className="flex items-center gap-2 font-bold text-md">
-          <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-            <div className="w-1.5 h-1.5 bg-background rounded-full" />
-          </div>
-          Capsule AI
-        </div>
-      </div>
-      
-      <div className="p-4 flex-1 overflow-y-auto">
-        <button className="w-full flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-md py-2 px-4 mb-6 transition-colors text-sm font-medium">
-          <PlusCircle size={16} />
-          New Chat
-        </button>
-        
-        <div className="space-y-1">
-          {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.path);
-            const Icon = item.icon;
-            
-            return (
-              <Link 
-                key={item.path} 
-                href={item.path}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isActive 
-                    ? "bg-primary/10 text-primary" 
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                }`}
-              >
-                <Icon size={18} className={isActive ? "text-primary" : "text-muted-foreground"} />
-                {item.name}
-              </Link>
-            );
-          })}
-        </div>
-        
-        <div className="mt-8">
-          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-3">
-            Recent Conversations
-          </h3>
-          <div className="space-y-1">
-            <div className="px-3 py-2 text-sm text-foreground hover:bg-accent rounded-md cursor-pointer truncate">
-              Setup NestJS Backend
-            </div>
-            <div className="px-3 py-2 text-sm text-muted-foreground hover:bg-accent rounded-md cursor-pointer truncate">
-              Debug FEA Simulation
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div className="p-4 border-t border-border/40">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-sm font-medium">
-            G
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium leading-none">gsgmk</span>
-            <span className="text-xs text-muted-foreground mt-1">Personal Workspace</span>
-          </div>
-        </div>
-      </div>
-    </aside>
-  );
+  return <aside className="flex h-screen w-60 shrink-0 flex-col border-r border-[#1f1f23] bg-[#0c0c0e]">
+    <div className="flex h-16 items-center gap-3 border-b border-[#1f1f23] px-4">
+      <div className="grid h-7 w-7 place-items-center rounded-md bg-[#27272a] text-zinc-200"><Layers3 size={15} /></div>
+      <div><div className="text-[13px] font-semibold text-zinc-100">Capsule AI</div><div className="text-[10px] text-zinc-500">AUTOMATION WORKSPACE</div></div>
+    </div>
+    <div className="p-3">
+      <Link href="/workspace/chat" className="flex h-9 items-center justify-center gap-2 rounded-md bg-[#6366f1] text-xs font-semibold text-white transition hover:bg-[#5558dc]"><Plus size={15} /> New workflow</Link>
+    </div>
+    <nav className="space-y-1 px-3">
+      <p className="mb-2 px-2 text-[9px] font-bold uppercase tracking-[.13em] text-zinc-600">Workspace</p>
+      {navItems.map(({ name, path, icon: Icon }) => {
+        const active = pathname.startsWith(path);
+        return <Link key={path} href={path} className={`flex h-9 items-center gap-3 rounded-md border px-2.5 text-xs font-medium transition ${active ? "border-zinc-800 bg-zinc-900 text-zinc-100" : "border-transparent text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"}`}><Icon size={16} className={active ? "text-indigo-400" : "text-zinc-500"} />{name}</Link>;
+      })}
+    </nav>
+    <div className="mt-6 border-t border-[#1f1f23] px-3 pt-5">
+      <p className="mb-2 px-2 text-[9px] font-bold uppercase tracking-[.13em] text-zinc-600">Recent</p>
+      {["API gateway review", "Frontend refactor", "Qdrant collection plan"].map((item, index) => <button key={item} className={`flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-xs ${index === 0 ? "text-zinc-300" : "text-zinc-500"} hover:bg-zinc-900 hover:text-zinc-200`}><Bot size={14} /> <span className="truncate">{item}</span></button>)}
+    </div>
+    <div className="mt-auto border-t border-[#1f1f23] p-3">
+      <Link href="/workspace/settings" className="flex items-center gap-3 rounded-md p-2 hover:bg-zinc-900"><div className="grid h-7 w-7 place-items-center rounded-md bg-zinc-800 text-[11px] font-semibold">G</div><div className="min-w-0 flex-1"><div className="truncate text-xs font-medium text-zinc-200">gsgmk</div><div className="mt-0.5 flex items-center gap-1 text-[10px] text-zinc-500"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> System operational</div></div><Settings size={15} className="text-zinc-500" /></Link>
+    </div>
+  </aside>;
 }

@@ -1,0 +1,14 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/architecture/page": "app/architecture/page.js",
+  "/page": "app/page.js",
+  "/integrations/page": "app/integrations/page.js",
+  "/login/page": "app/login/page.js",
+  "/security/page": "app/security/page.js",
+  "/workspace/chat/page": "app/workspace/chat/page.js",
+  "/workspace/page": "app/workspace/page.js",
+  "/workspace/capsules/page": "app/workspace/capsules/page.js",
+  "/workspace/skills/page": "app/workspace/skills/page.js",
+  "/workspace/settings/page": "app/workspace/settings/page.js",
+  "/workspace/dashboard/page": "app/workspace/dashboard/page.js"
+}

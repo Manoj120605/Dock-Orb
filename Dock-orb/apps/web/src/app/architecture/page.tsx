@@ -1,0 +1,7 @@
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { ArchitectureMap } from "@/components/architecture/ArchitectureMap";
+
+export default function ArchitecturePage() {
+  return <main className="min-h-screen px-6 py-10 md:px-12"><div className="mx-auto max-w-7xl"><Link href="/" className="inline-flex items-center gap-2 text-sm text-white/55 hover:text-[#e8d5b7]"><ArrowLeft size={16} /> Back to Capsule AI</Link><header className="py-16"><p className="gold-label mb-4">Reference architecture</p><h1 className="font-display max-w-3xl text-5xl italic leading-tight md:text-7xl">A contextual system that keeps work in motion.</h1><p className="mt-6 max-w-2xl text-lg leading-8 text-white/55">Capsule connects the interface, orchestration, memory, and provider layers without making any one model the center of your workflow.</p></header><ArchitectureMap /><section className="mt-16 grid gap-6 border-t border-white/10 pt-12 md:grid-cols-3"><p className="text-sm leading-6 text-white/50"><b className="block pb-2 text-white">Request path</b>Workspace → Gateway → Pipeline → selected provider → streamed response.</p><p className="text-sm leading-6 text-white/50"><b className="block pb-2 text-white">Context path</b>Conversation and Capsule context are optimized before each model request.</p><p className="text-sm leading-6 text-white/50"><b className="block pb-2 text-white">Storage path</b>Structured records, cache state, and semantic vectors stay in dedicated data services.</p></section></div></main>;
+}

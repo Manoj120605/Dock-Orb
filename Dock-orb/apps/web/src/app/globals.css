@@ -4,79 +4,62 @@
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 262.1 83.3% 57.8%;
-
-    --radius: 0.5rem;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 28 22% 55%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 62%;
+    --accent: 28 18% 17%;
+    --accent-foreground: 30 46% 81%;
+    --destructive: 0 62% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 28 22% 55%;
+    --radius: 0.75rem;
   }
 
-  .dark {
-    --background: 226 58% 10%;
-    --foreground: 210 40% 98%;
-
-    --card: 226 58% 13%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 226 58% 13%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 262.1 83.3% 65%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 262.1 83.3% 65%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background text-foreground antialiased;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: radial-gradient(circle at 50% 0%, rgba(167, 139, 113, .12), transparent 27rem), radial-gradient(rgba(255,255,255,.055) 1px, transparent 1px);
+    background-size: auto, 32px 32px;
   }
+  ::selection { background: #a78b71; color: #0a0a0a; }
 }
 
-/* Glassmorphism utilities */
-.glass-panel {
-  @apply bg-background/60 backdrop-blur-md border border-white/10 shadow-lg;
-}
+.font-display { font-family: Georgia, "Times New Roman", serif; }
+.glass-panel { @apply border border-white/10 bg-white/[0.035] backdrop-blur-md shadow-2xl; }
+.luxury-card { @apply glass-panel rounded-3xl transition duration-300 hover:-translate-y-1 hover:border-[#a78b71]/50 hover:bg-white/[0.06]; }
+.gold-label { @apply text-[10px] font-bold uppercase tracking-[0.18em] text-[#c9b8a0]; }
+.neural-line { stroke: #a78b71; stroke-dasharray: 8 12; animation: flow 7s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -160; } }
+
+/* Authenticated automation workspace — same black and warm-gold system as the public site */
+.workspace-shell { background: #0a0a0a; color: #fff; font-family: Arial, Helvetica, sans-serif; }
+.workspace-grid { background-color: #0a0a0a; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 24px 24px; }
+.workspace-card { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.035); border-radius: 8px; }
+.workspace-label { color: rgba(255,255,255,.42); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.workspace-shell .bg-\[\#09090b\], .workspace-shell .bg-\[\#0c0c0e\] { background-color: #0a0a0a !important; }
+.workspace-shell .border-zinc-800, .workspace-shell .border-\[\#1f1f23\] { border-color: rgba(255,255,255,.1) !important; }
+.workspace-shell .bg-zinc-900, .workspace-shell .bg-zinc-800 { background-color: rgba(255,255,255,.06) !important; }
+.workspace-shell .hover\:bg-zinc-900:hover { background-color: rgba(167,139,113,.13) !important; }
+.workspace-shell .text-zinc-100 { color: #fff !important; }
+.workspace-shell .text-zinc-200, .workspace-shell .text-zinc-300 { color: #f1e8dc !important; }
+.workspace-shell .text-zinc-400 { color: #c9b8a0 !important; }
+.workspace-shell .text-zinc-500 { color: rgba(255,255,255,.54) !important; }
+.workspace-shell .text-zinc-600 { color: rgba(255,255,255,.36) !important; }
+.workspace-shell .bg-indigo-500, .workspace-shell .hover\:bg-indigo-400:hover { background-color: #a78b71 !important; }
+.workspace-shell .text-indigo-400, .workspace-shell .text-indigo-300 { color: #e8d5b7 !important; }
+.workspace-shell .border-indigo-500 { border-color: #a78b71 !important; }
+.workspace-shell .bg-indigo-500\/10 { background-color: rgba(167,139,113,.12) !important; }
+.workspace-shell .hover\:text-indigo-300:hover { color: #e8d5b7 !important; }

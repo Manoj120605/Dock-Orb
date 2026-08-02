@@ -80,7 +80,7 @@ export class ChatService {
     });
 
     // Reverse to chronological order
-    return messages.reverse().map(m => ({
+    return messages.reverse().map((m: any) => ({
       role: m.role.toLowerCase() as any,
       content: m.content,
     }));

@@ -1,0 +1,9 @@
+{
+  "status": 307,
+  "headers": {
+    "location": "/workspace/chat",
+    "x-nextjs-stale-time": "4294967294",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/workspace/layout,_N_T_/workspace/page,_N_T_/workspace"
+  }
+}

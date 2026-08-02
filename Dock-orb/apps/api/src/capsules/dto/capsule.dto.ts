@@ -20,11 +20,11 @@ export class CreateCapsuleDto {
   @IsString()
   description?: string;
 
-  @ApiProperty({ type: 'object' })
+  @ApiProperty({ type: Object })
   @IsObject()
   content: Record<string, any>;
 
-  @ApiPropertyOptional({ type: 'object' })
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
   metadata?: Record<string, any>;
@@ -46,12 +46,12 @@ export class UpdateCapsuleDto {
   @IsString()
   description?: string;
 
-  @ApiPropertyOptional({ type: 'object' })
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
   content?: Record<string, any>;
 
-  @ApiPropertyOptional({ type: 'object' })
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
   metadata?: Record<string, any>;

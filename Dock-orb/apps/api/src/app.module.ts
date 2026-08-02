@@ -12,8 +12,10 @@ import { ProvidersModule } from './providers/providers.module';
 import { OptimizerModule } from './optimizer/optimizer.module';
 import { SkillsModule } from './skills/skills.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { AppController } from './app.controller';
 
 @Module({
+  controllers: [AppController],
   imports: [
     // Configuration
     ConfigModule.forRoot({
