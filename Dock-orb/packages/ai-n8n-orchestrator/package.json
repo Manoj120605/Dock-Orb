@@ -1,0 +1,19 @@
+{
+  "name": "@dock-orb/ai-n8n-orchestrator",
+  "version": "1.0.0",
+  "description": "AI orchestrator for breaking down tasks and executing them via n8n",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
