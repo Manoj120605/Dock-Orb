@@ -1,4 +1,4 @@
-# 🏛️ Capsule AI (Dock-Orb) — Technical Architecture & System Mechanics
+# Capsule AI (Dock-Orb) — Technical Architecture & System Mechanics
 
 > **Comprehensive Technical Specifications, System Topology, Context Engine Infrastructure, and Execution Workflows**
 
@@ -95,7 +95,7 @@ To optimize LLM inference budget:
    - Query embedding checked against Qdrant semantic cache collection.
    - Cosine similarity threshold: `≥ 0.92`.
    - If similarity score passes threshold, cached response is returned immediately.
-   - Result: **0ms LLM latency, \$0 token cost**.
+   - Result: **0ms LLM latency, $0 token cost**.
 
 ### 3.5. Executable MCP Skill System (`packages/skill-core`)
 - Based on the **Model Context Protocol (MCP)** standard.
