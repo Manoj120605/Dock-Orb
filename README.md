@@ -1,5 +1,7 @@
 # Capsule AI (Dock-Orb) — Technical Architecture & System Mechanics
 
+Gdrive link: https://drive.google.com/drive/folders/1fiOEFfw6Ypqr65FGHdGC9hz2UXwsOP8P?usp=sharing
+
 > **Comprehensive Technical Specifications, System Topology, Context Engine Infrastructure, and Execution Workflows**
 
 ---
