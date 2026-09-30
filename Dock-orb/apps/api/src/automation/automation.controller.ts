@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { McpService } from './mcp.service';
 import { DockerN8nService } from './docker-n8n.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { WorkflowBuilder, N8nClient } from '@dock-orb/ai-n8n-orchestrator';
+import { WorkflowBuilder } from './workflow-builder';
+import { N8nClient } from './n8n-client';
 import { exec } from 'child_process';
 import { CapsuleType } from '@prisma/client';
 
