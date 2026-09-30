@@ -183,4 +183,4 @@ Dock-orb/
 
 - **Type Safety**: Monorepo static checking via `npm run typecheck` (`tsc --noEmit` across all workspaces).
 - **Production Build**: Verified clean static optimization and server builds via `npm run build`.
-- **Database Seeding**: Verified database setup via `npm run db:setup` (`prisma db push` + `ts-node prisma/seed.ts`).
+- **Database Seeding**: Verified database setup via `npm run db:setup` (`prisma db push` + `ts-node prisma/seed.ts`). Requires docker n8n, node.js, and any api key from providers (OpenAI, openrouter, Nvidia nim, and etc). The automatic model switching only works for nvidia models or should enter different api in .env file manually to automate switching. 
