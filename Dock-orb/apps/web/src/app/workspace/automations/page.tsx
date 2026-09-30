@@ -41,20 +41,20 @@ export default function AutomationsPage() {
     setCreating(true);
     
     try {
-      const res = await fetch("http://localhost:3001/api/v1/capsules", {
+      const res = await fetch(`${API}/workspaces/${WORKSPACE_ID}/automation/workflows/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          workspaceId: "default-workspace",
+          prompt,
           name: prompt,
-          description: "Custom user automation workflow",
-          type: "TASK",
         }),
       });
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.data) {
         setCustomWorkflows((prev) => [data.data, ...prev]);
         setWorkflowPrompt("");
+        setStatusOk(true);
+        setStatusMessage(data.message || "Workflow generated and active!");
       }
     } catch (e) {
       console.error(e);
